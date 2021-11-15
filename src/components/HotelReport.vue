@@ -2,7 +2,7 @@
   <div class="hotel_report">
       <div>{{msg}}</div>
       <ReportFilter @filtered="onFilter"></ReportFilter>
-      <ReportChart></ReportChart>
+      <ReportChart v-if="chartLoaded" :reviewReports="review_reports"></ReportChart>
   </div>
 </template>
 
@@ -20,25 +20,20 @@ export default {
   data () {
     return {
       msg: 'Hotel Report Page',
-      review_reports: []
+      review_reports: [],
+      chartLoaded: false
     }
   },
   methods: {
-    chartParams (filterValue) {
-      const params = new URLSearchParams()
-      params.append('hotel_id', filterValue.hotel_id)
-      params.append('date_from', filterValue.date_from)
-      params.append('date_to', filterValue.date_to)
-      return params
-    },
-    onFilter (filterValue) {
-      console.log(filterValue.hotel_id)
-      console.log(filterValue.is_clear)
+    async onFilter (filterValue) {
       if (filterValue.is_clear) {
         // Clear the chart
+        this.review_reports = []
+        this.chartLoaded = false
       } else {
         // Get report data for the chart
-        axios
+        this.chartLoaded = false
+        await axios
           .get('http://127.0.0.1:8000/api/hotel_reports/show', {
             params: {
               hotel_id: filterValue.hotel_id,
@@ -47,6 +42,7 @@ export default {
             }
           })
           .then(response => (this.review_reports = response.data))
+        this.chartLoaded = true
       }
     }
   }
