@@ -20,7 +20,6 @@
         </div>
       </fieldset>
     </form>
-      <div>{{msg}}</div>
   </div>
 </template>
 

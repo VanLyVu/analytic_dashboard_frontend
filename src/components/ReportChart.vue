@@ -1,11 +1,13 @@
 <template>
   <div class="report_chart">
-      <line-chart :chart-data="datacollection" :options="options"></line-chart>
+      <h1>Averate score over time</h1>
+      <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
   </div>
 </template>
 
 <script>
 import LineChart from './LineChart.js'
+import moment from 'moment'
 
 export default {
   components: {
@@ -13,14 +15,64 @@ export default {
   },
   props: ['reviewReports'],
   data () {
+    let that = this
     return {
       datacollection: null,
-      options: {
+      chartOptions: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              max: 100,
+              beginAtZero: true
+            },
+            gridLines: {
+              display: true
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Score'
+            }
+          }]
+        },
+        legend: {
+          display: false
+        },
+        elements: {
+          line: {
+            tension: 0 // disables bezier curves
+          },
+          point: {
+            radius: 4
+          }
+        },
+        tooltips: {
+          callbacks: {
+            title: function (tooltipItem, data) {
+              return ''
+            },
+            label: function (tooltipItem, data) {
+              const reportByDate = that.chartObjects[tooltipItem.index]
+              return [
+                `Score: ${reportByDate.average_score.toFixed(0)}`,
+                `Review count: ${reportByDate.review_count}`
+              ]
+            }
+          },
+          backgroundColor: 'white',
+          borderColor: 'black',
+          borderWidth: 1,
+          displayColors: false,
+          bodyFontColor: 'black',
+          bodyAlign: 'center'
+        }
       },
       chartLabels: [],
-      chartDatas: []
+      chartDatas: [],
+      chartObjects: [],
+      dateGroup: null
     }
   },
   mounted () {
@@ -34,22 +86,44 @@ export default {
         labels: this.chartLabels,
         datasets: [
           {
-            label: 'Data One',
-            backgroundColor: '#f87979',
+            borderColor: 'grey',
+            borderWidth: 6,
+            label: 'Score',
+            backgroundColor: '#00000000',
             data: this.chartDatas
           }
         ]
       }
     },
     convertLabelsAndData () {
-      console.log(this.reviewReports)
       if (this.reviewReports['review_dates']) {
-        console.log('comehere')
+        this.dateGroup = this.reviewReports['date_group']
+
         this.reviewReports['review_dates'].forEach(reportByDate => {
-          this.chartLabels.push(reportByDate['date'])
-          this.chartDatas.push(reportByDate['average_score'])
+          this.chartLabels.push(this.getDateLabel(reportByDate['date']))
+          this.chartDatas.push(reportByDate['average_score'].toFixed(0))
+          this.chartObjects.push(reportByDate)
         })
       }
+    },
+    getDateLabel (reportDate) {
+      const date = moment(reportDate, 'YYYY-MM-DD')
+
+      if (this.dateGroup === 'monthly') {
+        return date.format('YYYY-MM')
+      }
+
+      if (this.dateGroup === 'weekly') {
+        let monthDisplay = ''
+
+        if (date.date() < 7 || date.date() > date.daysInMonth() - 6) {
+          monthDisplay = date.format('YYYY-MM')
+        }
+
+        return ['Week ' + date.week(), monthDisplay]
+      }
+
+      return reportDate
     }
   }
 }

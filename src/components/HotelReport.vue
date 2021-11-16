@@ -1,6 +1,5 @@
 <template>
   <div class="hotel_report">
-      <div>{{msg}}</div>
       <ReportFilter @filtered="onFilter"></ReportFilter>
       <ReportChart v-if="chartLoaded" :reviewReports="review_reports"></ReportChart>
   </div>
