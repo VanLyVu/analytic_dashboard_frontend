@@ -38,7 +38,7 @@ docker exec vvly-frontend-vue npm run dev
 ```
 
 ### 6. Enjoy
-Type `http://localhost:8080/` on your browser and enjoy the web! Thank you very much!
+Click [http://localhost:8080/](http://localhost:8080/) enjoy the web! Thank you very much!
 
 ## What I've DONE
 - Completed the feature
