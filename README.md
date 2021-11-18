@@ -37,6 +37,9 @@ $ docker exec vvly-frontend-vue npm install
 docker exec vvly-frontend-vue npm run dev
 ```
 
+### 6. Enjoy
+Type `http://localhost:8080/` on your browser and enjoy the web! Thank you very much!
+
 ## What I've DONE
 - Completed the feature
 - Used VueJS 2
