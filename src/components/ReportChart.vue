@@ -1,6 +1,5 @@
 <template>
   <div class="report_chart">
-      <h1>Averate score over time</h1>
       <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
   </div>
 </template>
@@ -20,7 +19,7 @@ export default {
       datacollection: null,
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         scales: {
           yAxes: [{
             ticks: {
@@ -55,6 +54,9 @@ export default {
             },
             label: function (tooltipItem, data) {
               const reportByDate = that.chartObjects[tooltipItem.index]
+              if (reportByDate.average_score == null) {
+                return ''
+              }
               return [
                 `Score: ${reportByDate.average_score.toFixed(0)}`,
                 `Review count: ${reportByDate.review_count}`
@@ -76,7 +78,6 @@ export default {
     }
   },
   mounted () {
-    console.log('mount Report Chart')
     this.convertLabelsAndData()
     this.fillData()
   },
@@ -101,7 +102,12 @@ export default {
 
         this.reviewReports['review_dates'].forEach(reportByDate => {
           this.chartLabels.push(this.getDateLabel(reportByDate['date']))
-          this.chartDatas.push(reportByDate['average_score'].toFixed(0))
+          if (reportByDate['average_score'] !== null) {
+            this.chartDatas.push(reportByDate['average_score'].toFixed(0))
+          } else {
+            this.chartDatas.push(null)
+          }
+
           this.chartObjects.push(reportByDate)
         })
       }
@@ -131,5 +137,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

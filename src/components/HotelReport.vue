@@ -1,6 +1,7 @@
 <template>
   <div class="hotel_report">
       <ReportFilter @filtered="onFilter"></ReportFilter>
+      <h1>Average score over time</h1>
       <ReportChart v-if="chartLoaded" :reviewReports="review_reports"></ReportChart>
   </div>
 </template>
@@ -50,5 +51,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.hotel_report h1 {
+  text-align: center;
+}
 </style>
