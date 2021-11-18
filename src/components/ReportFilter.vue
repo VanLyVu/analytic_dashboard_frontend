@@ -32,7 +32,6 @@ export default {
   name: 'ReportFilter',
   data () {
     return {
-      msg: 'Report Filter Area',
       hotels: [],
       filter: {
         hotel_id: null,
@@ -43,13 +42,9 @@ export default {
     }
   },
   mounted () {
-    let that = this
     axios
       .get('http://127.0.0.1:8000/api/hotel_reports/hotels')
-      .then(response => {
-          this.hotels = response.data
-        }
-      )
+      .then(response => (this.hotels = response.data))
   },
   methods: {
     submitSearch () {

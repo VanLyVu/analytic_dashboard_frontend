@@ -1,11 +1,11 @@
 <template>
   <div class="report_chart">
-      <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
+      <line-chart :chart-data="datacollection" :chartOptions="chartOptions" :chartObjects="chartObjects"></line-chart>
   </div>
 </template>
 
 <script>
-import LineChart from './LineChart.js'
+import LineChart from './wrapper/SingleLineChart.js'
 import moment from 'moment'
 
 export default {
@@ -14,61 +14,23 @@ export default {
   },
   props: ['reviewReports'],
   data () {
-    let that = this
     return {
       datacollection: null,
       chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [{
-            ticks: {
-              min: 0,
-              max: 100,
-              beginAtZero: true
-            },
-            gridLines: {
-              display: true
-            },
-            scaleLabel: {
-              display: true,
-              labelString: 'Score'
-            }
-          }]
+        scaleYAxesMax: 100,
+        scaleLabelText: 'Score',
+        getTooltipTitle: function (tooltipItem, data, pointObject) {
+          return ''
         },
-        legend: {
-          display: false
-        },
-        elements: {
-          line: {
-            tension: 0 // disables bezier curves
-          },
-          point: {
-            radius: 4
+        getTooltipBody: function (tooltipItem, data, pointObject) {
+          const reportByDate = pointObject[tooltipItem.index]
+          if (reportByDate.average_score == null) {
+            return ''
           }
-        },
-        tooltips: {
-          callbacks: {
-            title: function (tooltipItem, data) {
-              return ''
-            },
-            label: function (tooltipItem, data) {
-              const reportByDate = that.chartObjects[tooltipItem.index]
-              if (reportByDate.average_score == null) {
-                return ''
-              }
-              return [
-                `Score: ${reportByDate.average_score.toFixed(0)}`,
-                `Review count: ${reportByDate.review_count}`
-              ]
-            }
-          },
-          backgroundColor: 'white',
-          borderColor: 'black',
-          borderWidth: 1,
-          displayColors: false,
-          bodyFontColor: 'black',
-          bodyAlign: 'center'
+          return [
+            `Score: ${reportByDate.average_score.toFixed(0)}`,
+            `Review count: ${reportByDate.review_count}`
+          ]
         }
       },
       chartLabels: [],
@@ -89,7 +51,6 @@ export default {
           {
             borderColor: 'grey',
             borderWidth: 6,
-            label: 'Score',
             backgroundColor: '#00000000',
             data: this.chartDatas
           }

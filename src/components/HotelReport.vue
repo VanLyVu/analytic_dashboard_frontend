@@ -19,7 +19,6 @@ export default {
   },
   data () {
     return {
-      msg: 'Hotel Report Page',
       review_reports: [],
       chartLoaded: false
     }
