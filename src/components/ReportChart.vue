@@ -19,7 +19,7 @@ export default {
       datacollection: null,
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         scales: {
           yAxes: [{
             ticks: {

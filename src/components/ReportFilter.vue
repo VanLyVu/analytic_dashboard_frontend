@@ -1,29 +1,27 @@
 <template>
   <div class="report_filter">
-    <form id="filter_form">
-      <fieldset class="container">
-        <legend>Filter</legend>
-        <div class="hotel-filter">
-          <select v-on:change="submitSearch()" name="hotel_id" v-model="filter.hotel_id">
-            <option v-bind:value="null">Select Hotel</option>
-            <option v-for="hotel in hotels" :key="hotel.id" v-bind:value="hotel.id">
-              {{hotel.name}}
-            </option>
+    <fieldset class="filter">
+      <legend>Filter</legend>
+      <div class="filter__single">
+        <select class="filter__single__select" v-on:change="submitSearch()" name="hotel_id" v-model="filter.hotel_id">
+          <option v-bind:value="null">Select Hotel</option>
+          <option v-for="hotel in hotels" :key="hotel.id" v-bind:value="hotel.id">
+            {{hotel.name}}
+          </option>
 
-          </select>
+        </select>
+      </div>
+      <div class="filter__twice">
+        <div class="filter__twice__item">
+          <span>FROM</span>
+          <input type="date" name="date_from" v-on:change="submitSearch()" v-model="filter.date_from"/>
         </div>
-        <div class="date-filter">
-          <div class="date-from-filter">
-            <span>FROM</span>
-            <input type="date" name="date_from" v-on:change="submitSearch()" v-model="filter.date_from"/>
-          </div>
-          <div class="date-to-filter">
-            <span>TO</span>
-            <input type="date" name="date_to" v-on:change="submitSearch()" v-model="filter.date_to"/>
-          </div>
+        <div class="filter__twice__item">
+          <span>TO</span>
+          <input type="date" name="date_to" v-on:change="submitSearch()" v-model="filter.date_to"/>
         </div>
-      </fieldset>
-    </form>
+      </div>
+    </fieldset>
   </div>
 </template>
 
@@ -67,26 +65,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
+.filter {
   display: flex;
 }
 
-.container .hotel-filter {
+.filter .filter__single {
   flex: 1;
   display: flex;
   justify-content: center;
 }
 
-.container .hotel-filter select {
+.filter .filter__single .filter__single__select {
   width: 200px;
 }
 
-.container .date-filter {
+.filter .filter__twice {
   flex: 2;
   display: flex;
 }
 
-.container .date-filter .date-from-filter, .date-to-filter {
+.filter .filter__twice .filter__twice__item {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -94,22 +92,22 @@ export default {
 }
 
 @media (max-width: 800px) {
-  .container {
+  .filter {
     flex-direction: column;
     row-gap: 15px;
   }
 
-  .container .hotel-filter {
+  .filter .filter__single {
     justify-content: left;
   }
 
-  .container .date-filter .date-from-filter, .date-to-filter {
+  .filter .filter__twice .filter__twice__item {
     justify-content: left;
   }
 }
 
 @media (max-width: 480px) {
-  .container .date-filter {
+  .filter .filter__twice {
     flex-direction: column;
     row-gap: 15px;
   }
