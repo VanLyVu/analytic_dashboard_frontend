@@ -46,8 +46,8 @@ export default {
   methods: {
     loadHotels () {
       axios
-      .get(process.env.API_URL + '/api/hotel_reports/hotels')
-      .then(response => (this.hotels = response.data))
+        .get(process.env.API_URL + '/api/hotel_reports/hotels')
+        .then(response => (this.hotels = response.data))
     },
     submitSearch () {
       this.filter.is_clear = this.isClear()

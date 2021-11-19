@@ -29,12 +29,20 @@ $ docker-compose up -d --build
 
 ### 4. Install dependencies
 ```
-$ docker exec vvly-frontend-vue npm install
+$ docker exec -it vvly-frontend-vue bash
+$ npm install
+```
+
+### 5. Run UnitTest
+Inside docker container run
+```
+npm run unit
 ```
 
 ### 5. Start the web
+Inside docker container run
 ```
-docker exec vvly-frontend-vue npm run dev
+npm run dev
 ```
 
 ### 6. Enjoy
@@ -48,17 +56,20 @@ Click [http://localhost:8080/](http://localhost:8080/) enjoy the web! Thank you 
 - Used BEM - CSS Technique to write CSS in ReportFilter.vue
 - Wrote CSS based on SCSS style
 - Supported reponsive in mobile, tablet, pc
+- UnitTest: Wrote some Unittest for ReportFilter component
 
 ## What I've not FINISH
 - Typescript: I tried to integrate Typescript to Vue2 but it took more time than I expected. But when I can integrate to Vue2 I think I can use Typescript to write code, because I use Typescript when I made an application in AngularJS.
 - SCSS: Somehow the `webpack` lib is too old, so I can not install library `sass-loader node-sass` to support SCSS
-- Unit Test: I haven't write Unittest for Vue App so it takes time to research and complete.
+- Unit Test: I haven't write Unittest for Vue App so it takes time to complete all unittest.
 
 ## What I can IMPROVE
 - Create a central point to manage call API
 - Create base element like select, input date...
 - Integrate TypeScript and refactor the code
-- Write UnitTest using Jest
+- Write more UnitTest
+- Add loading animation when call api to re-render the chart
+
 
 ## What we can expand from the project
 - Support select multiple hotels and compare reviews between those hotels
