@@ -75,3 +75,4 @@ Click [http://localhost:8080/](http://localhost:8080/) enjoy the web! Thank you 
 - Support select multiple hotels and compare reviews between those hotels
 - Support other charts
 - Paint color for the trend: Example: red for down trend and green for up trend
+- Integrate with Github Action to run CI
