@@ -8,7 +8,6 @@
           <option v-for="hotel in hotels" :key="hotel.id" v-bind:value="hotel.id">
             {{hotel.name}}
           </option>
-
         </select>
       </div>
       <div class="filter__twice">
@@ -42,11 +41,14 @@ export default {
     }
   },
   mounted () {
-    axios
-      .get('http://127.0.0.1:8000/api/hotel_reports/hotels')
-      .then(response => (this.hotels = response.data))
+    this.loadHotels()
   },
   methods: {
+    loadHotels () {
+      axios
+      .get(process.env.API_URL + '/api/hotel_reports/hotels')
+      .then(response => (this.hotels = response.data))
+    },
     submitSearch () {
       this.filter.is_clear = this.isClear()
       this.$emit('filtered', this.filter)

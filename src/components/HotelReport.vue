@@ -33,7 +33,7 @@ export default {
         // Get report data for the chart
         this.chartLoaded = false
         await axios
-          .get('http://127.0.0.1:8000/api/hotel_reports/show', {
+          .get(process.env.API_URL + '/api/hotel_reports/show', {
             params: {
               hotel_id: filterValue.hotel_id,
               date_from: filterValue.date_from,

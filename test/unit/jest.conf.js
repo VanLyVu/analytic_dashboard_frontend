@@ -23,5 +23,7 @@ module.exports = {
     '!src/main.js',
     '!src/router/index.js',
     '!**/node_modules/**'
-  ]
+  ],
+  verbose: true,
+  testURL: "http://0.0.0.0:8080/"
 }
